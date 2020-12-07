@@ -20,10 +20,10 @@
 - name: limits config
   lineinfile: dest=/etc/security/limits.conf line={{item}}
   with_items:
-    - '* soft nofile 409600'
-    - '* hard nofile 409600'
-    - 'root soft nofile 409600'
-    - 'root hard nofile 409600'
+    - '* soft nofile 655360'
+    - '* hard nofile 655360'
+    - 'hadoop soft nofile 655360'
+    - 'hadoop hard nofile 655360'
 
 - name: logrotate compress
   replace: path=/etc/logrotate.conf regexp='^#compress' replace='compress' backup=yes

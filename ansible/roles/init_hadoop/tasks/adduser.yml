@@ -5,13 +5,13 @@
     - user: name=hadoop group=hadoop
   raw: echo qazWSXedc1243 | passwd --stdin hadoop
 
-- name: add w to /etc/sudoers
-  raw: chmod u+w /etc/sudoers
+- name: Changing perm of "/etc/sudoers", adding "x"
+  file: dest=/etc/sudoers mode=u+x
 
 - name: enable hadoop sudo
   lineinfile:
     path: /etc/sudoers
     line: hadoop ALL=(ALL) NOPASSWD:ALL
 
-- name: revoke w from /etc/sudoers
-  raw: chmod u-w /etc/sudoers
+- name: Changing perm of "/etc/sudoers", remove "x"
+  file: dest=/etc/sudoers mode=u-x
