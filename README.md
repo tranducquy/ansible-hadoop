@@ -1,2 +1,2 @@
 # ansible-hadoop
-## Apache Hadopp集群部署脚本
+## Apache Hadoop集群部署脚本
