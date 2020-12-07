@@ -1,0 +1,32 @@
+---
+- name: set hive  support lzo
+  raw : cp -r /opt/cloudera/parcels/GPLEXTRAS/lib/hadoop/lib/*  /opt/cloudera/parcels/CDH/lib/hive/lib/
+- name: set hive support json
+  copy: src=files/json/  dest=/opt/cloudera/parcels/CDH/lib/hive/auxlib/
+- name: spark2  hbase
+  raw : cp /opt/cloudera/parcels/CDH/jars/{{item}} /opt/cloudera/parcels/SPARK2/lib/spark2/jars/{{item}}
+  with_items:
+    - hbase-protocol-1.2.0-cdh5.7.6.jar 
+    - htrace-core-3.2.0-incubating.jar
+    - hbase-server-1.2.0-cdh5.7.6.jar 
+    - hbase-common-1.2.0-cdh5.7.6.jar 
+    - hbase-client-1.2.0-cdh5.7.6.jar 
+    - hbase-prefix-tree-1.2.0-cdh5.7.6.jar 
+    - hbase-hadoop-compat-1.2.0-cdh5.7.6.jar 
+- name : copy spark 2.4.3 
+  copy: src=files/spark-2.4.3.mob1-bin-2.6.5.tar.gz dest=/tmp/spark-2.4.3.mob1-bin-2.6.5.tar.gz
+- name: mkdir spark
+  raw: mkdir -p /opt/cm_extend/spark && tar -zxf /tmp/spark-2.4.3.mob1-bin-2.6.5.tar.gz  -C  /opt/cm_extend/spark/
+- name: copy bash shell
+  copy : src=files/{{item}} dest=/opt/cm_extend/{{item}}
+  with_items:
+    - blockdev.sh
+    - check_load_usage.sh
+- name : copy  linkis
+  copy: src=files/linkis.tar.gz dest=/tmp/linkis.tar.gz
+- name : tar linkis 
+  raw: tar -zxf /tmp/linkis.tar.gz  -C  /opt/cm_extend/ 
+- name : set blockdev 
+  raw: cd /opt/cm_extend/ && bash blockdev.sh 
+- name: ls cm_extend
+  raw: ls /opt/cm_extend/*

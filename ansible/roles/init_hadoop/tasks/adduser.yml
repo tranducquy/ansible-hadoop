@@ -1,0 +1,17 @@
+---
+- name: create hadoop user and group
+  block:
+    - group: name=hadoop
+    - user: name=hadoop group=hadoop
+  raw: echo qazWSXedc1243 | passwd --stdin hadoop
+
+- name: add w to /etc/sudoers
+  raw: chmod u+w /etc/sudoers
+
+- name: enable hadoop sudo
+  lineinfile:
+    path: /etc/sudoers
+    line: hadoop ALL=(ALL) NOPASSWD:ALL
+
+- name: revoke w from /etc/sudoers
+  raw: chmod u-w /etc/sudoers

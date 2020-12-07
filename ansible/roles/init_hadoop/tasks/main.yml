@@ -1,0 +1,31 @@
+---
+- name: part disk
+  include: partitions.yml
+
+- name: set hostname
+  include: partition.yaml
+
+- name: packages install
+  include: packages.yaml
+
+- name: sysctl config
+  include: sysctl.yaml
+
+- name: set optimize
+  include: optimize.yaml
+
+- name: python 2.7
+  include: python2.7.yaml
+
+- name: set cloudera-scm-agent
+  include:  cloudera-manager-agent.yml
+
+- name: last fininal doing
+  include:  last.yaml
+
+- name : cm-5.12.0
+  include : cloudera-manager-agent-5.12.0.yml
+
+- name : cm-5.8.3
+  include : cloudera-manager-agent.yml
+
