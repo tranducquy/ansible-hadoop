@@ -14,13 +14,8 @@
     - name: create zookeeper data directory
       file: path=/var/soft/data/zookeeper/storage state=directory owner=hadoop group=hadoop recurse=yes
     - name: create datanode directory
-      file:
-         path: "{{ item }}"
-         state: directory
-         owner: hadoop
-         group: hadoop
-         recurse: yes
-         with_items:
+      file: path={{ item }} state=directory owner=hadoop group=hadoop recurse=yes
+      with_items:
            - /hadoop/data/hdfs
            - /hadoop1/data/hdfs
            - /hadoop2/data/hdfs
@@ -33,14 +28,9 @@
            - /hadoop9/data/hdfs
            - /hadoop10/data/hdfs
            - /hadoop11/data/hdfs
-      - name: create nodemanager directory
-        file:
-          path: "{{ item }}"
-          state: directory
-          owner: hadoop
-          group: hadoop
-          recurse: yes
-          with_items:
+    - name: create nodemanager directory
+      file: path={{ item }} state=directory owner=hadoop group=hadoop recurse=yes
+      with_items:
             - /hadoop/data/tmp/nodemanager
             - /hadoop1/data/tmp/nodemanager
             - /hadoop2/data/tmp/nodemanager
@@ -53,14 +43,9 @@
             - /hadoop9/data/tmp/nodemanager
             - /hadoop10/data/tmp/nodemanager
             - /hadoop11/data/tmp/nodemanager
-      - name: create mapreduce directory
-        file:
-          path: "{{ item }}"
-          state: directory
-          owner: hadoop
-          group: hadoop
-          recurse: yes
-          with_items:
+    - name: create mapreduce directory
+      file: path={{ item }} state=directory owner=hadoop group=hadoop recurse=yes
+      with_items:
             - /hadoop/data/mapred/mrlocal
             - /hadoop1/data/mapred/mrlocal
             - /hadoop2/data/mapred/mrlocal
@@ -73,14 +58,9 @@
             - /hadoop9/data/mapred/mrlocal
             - /hadoop10/data/mapred/mrlocal
             - /hadoop11/data/mapred/mrlocal
-      - name: create hive tmp data directory
-        file:
-          path: "{{ item }}"
-          state: directory
-          owner: hadoop
-          group: hadoop
-          recurse: yes
-          with_items:
+    - name: create hive tmp data directory
+      file: path={{ item }} state=directory owner=hadoop group=hadoop recurse=yes
+      with_items:
             - /hadoop/data/tmp/hive
             - /hadoop1/data/tmp/hive
             - /hadoop2/data/tmp/hive
@@ -93,14 +73,9 @@
             - /hadoop9/data/tmp/hive
             - /hadoop10/data/tmp/hive
             - /hadoop11/data/tmp/hive
-      - name: create spark tmp data directory
-        file:
-          path: "{{ item }}"
-          state: directory
-          owner: hadoop
-          group: hadoop
-          recurse: yes
-          with_items:
+    - name: create spark tmp data directory
+      file: path={{ item }} state=directory owner=hadoop group=hadoop recurse=yes
+      with_items:
             - /hadoop/data/tmp/spark
             - /hadoop1/data/tmp/spark
             - /hadoop2/data/tmp/spark
@@ -113,6 +88,7 @@
             - /hadoop9/data/tmp/spark
             - /hadoop10/data/tmp/spark
             - /hadoop11/data/tmp/spark
+
 #- name: create hdfs data directory
 #  block:
 #    - name: Checking folders
