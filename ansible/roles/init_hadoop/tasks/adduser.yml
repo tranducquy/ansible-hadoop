@@ -3,15 +3,11 @@
   block:
     - group: name=hadoop
     - user: name=hadoop group=hadoop
-  raw: echo qazWSXedc1243 | passwd --stdin hadoop
 
-- name: Changing perm of "/etc/sudoers", adding "x"
-  file: dest=/etc/sudoers mode=u+x
+- name: set user passwd
+  raw: echo qazWSXedc1243 | passwd --stdin hadoop
 
 - name: enable hadoop sudo
   lineinfile:
     path: /etc/sudoers
     line: hadoop ALL=(ALL) NOPASSWD:ALL
-
-- name: Changing perm of "/etc/sudoers", remove "x"
-  file: dest=/etc/sudoers mode=u-x

@@ -1,0 +1,19 @@
+---
+- name: do config /etc/ssh/ssh_config
+  block:
+    - replace: path=/etc/ssh/ssh_config regexp="^#   StrictHostKeyChecking ask" replace="StrictHostKeyChecking no" backup=yes
+    - replace: path=/etc/ssh/ssh_config regexp="^GSSAPIAuthentication yes" replace="GSSAPIAuthentication no" backup=yes
+
+- name: do config /etc/ssh/sshd_config
+  block:
+    - replace: path=/etc/ssh/sshd_config regexp="^#PubkeyAuthentication yes" replace="PubkeyAuthentication yes" backup=yes
+    - replace: path=/etc/ssh/sshd_config regexp="^#RSAAuthentication yes" replace="RSAAuthentication yes" backup=yes
+    - replace: path=/etc/ssh/sshd_config regexp="^#AuthorizedKeysFile  .ssh" replace="AuthorizedKeysFile      .ssh/authorized_keys" backup=yes
+
+- name: config ssh
+  block:
+    - raw: rm -rf /home/hadoop/.ssh/*
+    - raw: su - hadoop -c "ssh-keygen -q -t rsa -N  \"\"  -f  /home/hadoop/.ssh/id_rsa"
+    - fetch: src=/home/hadoop/.ssh/id_rsa.pub dest=/tmp/
+    - raw:
+    - raw: chmod go-wx  /home/hadoop/.ssh/authorized_keys

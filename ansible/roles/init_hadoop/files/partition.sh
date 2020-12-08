@@ -16,7 +16,8 @@ yum install parted kmod-xfs xfsprogs -y
 #/dev/sdk
 #/dev/sdl
 #/dev/sdm
-disk_num=`fdisk -l | awk '$1=="Disk"&&$2~"^/dev"&&$2!~"^/dev/sda" {split($2,s,":"); print s[1]}'`
+#disk_num=`fdisk -l | awk '$1=="Disk"&&$2~"^/dev"&&$2!~"^/dev/sda" {split($2,s,":"); print s[1]}'`
+disk_num=`fdisk -l | awk '$1=="Disk"&&$2~"^/dev"&&$2!~"^/dev/sda"&&$2!~"^/dev/mapper" {split($2,s,":"); print s[1]}'`
 NUM=0
 for i in $disk_num
 do

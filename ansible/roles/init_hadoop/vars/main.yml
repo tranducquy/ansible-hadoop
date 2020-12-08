@@ -4,5 +4,5 @@ defrag_path: /sys/kernel/mm/redhat_transparent_hugepage/enabled
 rc_local: /etc/rc.local
 sysctl_path: /etc/sysctl.conf
 limits_path: /etc/security/limits.conf
-swappiness: 10
+swappiness: 1
 fstype: ext4
