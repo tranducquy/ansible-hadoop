@@ -14,6 +14,10 @@
   block:
     - raw: rm -rf /home/hadoop/.ssh/*
     - raw: su - hadoop -c "ssh-keygen -q -t rsa -N  \"\"  -f  /home/hadoop/.ssh/id_rsa"
-    - fetch: src=/home/hadoop/.ssh/id_rsa.pub dest=/tmp/
-    - raw:
+    - raw: cat /home/hadoop/.ssh/id_rsa.pub >>/home/hadoop/.ssh/authorized_keys
     - raw: chmod go-wx  /home/hadoop/.ssh/authorized_keys
+    - authorized_key:
+        user: hadoop
+        key: "{{ lookup('file', '/home/hadoop/.ssh/id_rsa') }}"
+        path: '/etc/ssh/authorized_keys/'
+        manage_dir: no
