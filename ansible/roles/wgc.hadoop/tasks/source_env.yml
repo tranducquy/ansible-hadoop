@@ -1,0 +1,16 @@
+---
+- name: add hadoop env to home profile
+  lineinfile: dest=/home/hadoop/.bash_profile line={{item}}
+  with_items:
+    - 'JAVA_HOME=/var/soft/jdk1.8.0_201'
+    - 'CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib/rt.jar'
+    - 'ZOOKEEPER_HOME=/var/soft/apache-zookeeper-3.5.8-bin'
+    - 'SCALA_HOME=/var/soft/scala-2.12.12'
+    - 'HADOOP_HOME=/var/soft/hadoop-3.3.0'
+    - 'HIVE_HOME=/var/soft/apache-hive-3.1.2-bin'
+    - 'SPARK_HOME=/var/soft/spark-3.0.1-bin-3.3.0'
+    - 'PATH=$PATH:$HOME/.local/bin:$HOME/bin:$JAVA_HOME/bin:$ZOOKEEPER_HOME/bin:$SCALA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$HIVE_HOME/bin:$SPARK_HOME/bin'
+    - 'export PATH'
+
+- name: source profile
+  raw: source /home/hadoop/.bash_profile

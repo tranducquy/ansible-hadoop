@@ -1,0 +1,4 @@
+- name: Deploy Hadoop
+  hosts: hadoop
+  roles:
+    - name: wgc.hadoop

@@ -1,0 +1,4 @@
+---
+hadoop_version: hadoop-3.3.0
+uid: 5002
+gid: "{{ uid }}"

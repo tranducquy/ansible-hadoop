@@ -13,6 +13,8 @@
       file: path=/var/soft/data/tmp/spark/pids state=directory owner=hadoop group=hadoop recurse=yes
     - name: create zookeeper data directory
       file: path=/var/soft/data/zookeeper/storage state=directory owner=hadoop group=hadoop recurse=yes
+    - name: create ranger pid directory
+      file: path=/var/soft/data/tmp/ranger/pids state=directory owner=hadoop group=hadoop recurse=yes
     - name: create datanode directory
       file: path={{ item }} state=directory owner=hadoop group=hadoop recurse=yes
       with_items:
@@ -88,6 +90,26 @@
             - /hadoop9/data/tmp/spark
             - /hadoop10/data/tmp/spark
             - /hadoop11/data/tmp/spark
+    - name: set directory mod and owner
+      block:
+        - name: set /var/soft diretory as owner=hadoop,group=hadoop,mode=0755
+          file: path=/var/soft owner=hadoop group=hadoop mode=0755 recurse=yes
+        - name: set /hadoop*/data/tmp directory as owner=hadoop,group=hadoop,mode=0777
+          file: path={{ item }} owner=hadoop group=hadoop mode=0777 recurse=yes
+          with_items:
+            - /hadoop/data/tmp
+            - /hadoop1/data/tmp
+            - /hadoop2/data/tmp
+            - /hadoop3/data/tmp
+            - /hadoop4/data/tmp
+            - /hadoop5/data/tmp
+            - /hadoop6/data/tmp
+            - /hadoop7/data/tmp
+            - /hadoop8/data/tmp
+            - /hadoop9/data/tmp
+            - /hadoop10/data/tmp
+            - /hadoop11/data/tmp
+
 
 #- name: create hdfs data directory
 #  block:

@@ -1,0 +1,7 @@
+---
+- name: stop Zookeeper
+  include: stop_zk.yml
+- name: rm soft link
+  file: path=/opt/zookeeper_{{ app_name }} state=absent
+- name: rm zk dataDir
+  file: path=/opt/{{ zookeeper_version }} state=absent

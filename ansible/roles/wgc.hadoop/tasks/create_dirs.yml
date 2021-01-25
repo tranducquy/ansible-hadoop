@@ -1,0 +1,30 @@
+---
+- name: create dir
+  file: path=/data/apache state=directory owner=hadoop group=hadoop recurse=yes
+
+- name: create hadoop pid directory
+  file: path=/data/apache/data/tmp/hadoop/pid state=directory owner=hadoop group=hadoop recurse=yes
+
+- name: create namenode directory
+  file: path=/data/apache/data/hdfs/nn state=directory owner=hadoop group=hadoop recurse=yes
+
+- name: create second namenode directory
+  file: path=/data/apache/data/hdfs/sn state=directory owner=hadoop group=hadoop recurse=yes
+
+- name: create journalnode directory
+  file: path=/data/apache/data/hdfs/jn state=directory owner=hadoop group=hadoop recurse=yes
+
+- name: create datanode directory
+  file: path={{ item }} state=directory owner=hadoop group=hadoop recurse=yes
+  with_items:
+    - /data/apache/data/hdfs/dn
+
+- name: create nodemanager directory
+  file: path={{ item }} state=directory owner=hadoop group=hadoop recurse=yes
+  with_items:
+    - /data/apache/data/yarn/nm
+
+- name: create mapreduce directory
+  file: path={{ item }} state=directory owner=hadoop group=hadoop recurse=yes
+  with_items:
+    - /data/apache/data/mapred/mr

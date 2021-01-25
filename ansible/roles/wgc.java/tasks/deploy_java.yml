@@ -1,0 +1,15 @@
+---
+- name: copy pkgs and unarchive
+  unarchive: src=files/jdk-8u201-linux-x64.tar.gz dest=/data/apache remote_src=no owner=hadoop group=hadoop
+
+- name: create soft link
+  file: src=/data/apache/jdk1.8.0_201 dest=/data/apache/java state=link owner=hadoop group=hadoop mode=0755
+
+- name: add java env to home profile
+  lineinfile: dest=/home/hadoop/.bash_profile line={{item}}
+  with_items:
+    - 'export JAVA_HOME=/data/apache/java'
+    - 'export PATH=$PATH:$JAVA_HOME/bin'
+
+- name: source profile
+  raw: source /home/hadoop/.bash_profile

@@ -1,0 +1,340 @@
+<?xml version="1.0"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+<configuration>
+    <!--How often to try connecting to the ResourceManager.default 30000ms-->
+    <property>
+        <name>yarn.resourcemanager.connect.retry-interval.ms</name>
+        <value>3000</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>
+        <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.local-dirs</name>
+        <value>/data/apache/data/yarn/nm</value>
+    </property>
+    <!--开启resourmanager HA-->
+    <property>
+        <name>yarn.resourcemanager.ha.enabled</name>
+        <value>true</value>
+    </property>
+    <!--在一个上配置rm1，另一个上配置rm2，不可共存-->
+    <property>
+        <name>yarn.resourcemanager.ha.id</name>
+        <value>rm1</value>
+    </property>
+    <!--    <property>
+            <name>yarn.resourcemanager.ha.id</name>
+            <value>rm2</value>
+        </property>-->
+    <!--故障处理类，启用HA后，客户端，AM和NM将使用该类故障转移到活动RM-->
+    <property>
+        <name>yarn.client.failover-proxy-provider</name>
+        <value>org.apache.hadoop.yarn.client.ConfiguredRMFailoverProxyProvider</value>
+    </property>
+    <!--开启故障自动切换，只在HA开启时-->
+    <property>
+        <name>yarn.resourcemanager.ha.automatic-failover.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.ha.automatic-failover.embedded</name>
+        <value>true</value>
+    </property>
+    <!--开启自动恢复
+    YARN可以通过相关配置支持ResourceManager重启过程中，不影响正在运行的作业，即重启后，作业还能正常继续运行直到结束。
+    开启了Recovery后，ResourceManger会将应用的状态等信息保存到yarn.resourcemanager.store.class配置的存储介质中，
+    重启后会load这些信息，并且NodeManger会将还在运行的container信息同步到ResourceManager，整个过程不影响作业的正常运行-->
+    <property>
+        <name>yarn.resourcemanager.recovery.enabled</name>
+        <value>true</value>
+    </property>
+    <!--yarn.resourcemanager.zk-address在hadoop2.9废弃改用hadoop.zk.address-->
+    <property>
+        <name>hadoop.zk.address</name>
+        <value>10-6-103-34-vm-jhdxyjd.mob.local:12181,10-6-103-35-vm-jhdxyjd.mob.local:12181,10-6-103-36-vm-jhdxyjd.mob.local:12181</value>
+    </property>
+    <!--有三种StateStore，分别是基于zookeeper, HDFS, leveldb, HA高可用集群必须用ZKRMStateStore-->
+    <property>
+        <name>yarn.resourcemanager.store.class</name>
+        <value>org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore</value>
+    </property>
+    <!--The maximum number of completed applications RM state store keeps，默认等于yarn.resourcemanager.max-completed-applications即1000，该参数必须<=yarn.resourcemanager.max-completed-applications
+    该参数影响RM的恢复性能，较小的值将会使rm恢复的越快-->
+    <property>
+        <name>yarn.resourcemanager.state-store.max-completed-applications</name>
+        <value>320000</value>
+    </property>
+    <!--The maximum number of completed applications RM keeps-->
+    <property>
+        <name>yarn.resourcemanager.max-completed-applications</name>
+        <value>320000</value>
+    </property>
+    <!--在分配新container给保存恢复的作业前的等待时间，这个等待时间内rm可以与nm同步数据-->
+    <property>
+        <name>yarn.resourcemanager.work-preserving-recovery.scheduling-wait-ms</name>
+        <value>10000</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.cluster-id</name>
+        <value>yarnRM</value>
+    </property>
+    <!--配置rm-->
+    <property>
+        <name>yarn.resourcemanager.ha.rm-ids</name>
+        <value>rm1,rm2</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.ha.id</name>
+        <value>rm1</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.hostname.rm1</name>
+        <value>10-6-103-34-vm-jhdxyjd.mob.local</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.hostname.rm2</name>
+        <value>10-6-103-35-vm-jhdxyjd.mob.local</value>
+    </property>
+    <!-- 配置rm1 -->
+    <property>
+        <name>yarn.resourcemanager.address.rm1</name>
+        <value>10-6-103-34-vm-jhdxyjd.mob.local:8032</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.scheduler.address.rm1</name>
+        <value>10-6-103-34-vm-jhdxyjd.mob.local:8030</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.resource-tracker.address.rm1</name>
+        <value>10-6-103-34-vm-jhdxyjd.mob.local:8031</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.admin.address.rm1</name>
+        <value>10-6-103-34-vm-jhdxyjd.mob.local:8033</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.webapp.address.rm1</name>
+        <value>10-6-103-34-vm-jhdxyjd.mob.local:8088</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.ha.admin.address.rm1</name>
+        <value>10-6-103-34-vm-jhdxyjd.mob.local:23142</value>
+    </property>
+    <!-- 配置rm2 -->
+    <property>
+        <name>yarn.resourcemanager.address.rm2</name>
+        <value>10-6-103-35-vm-jhdxyjd.mob.local:8032</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.scheduler.address.rm2</name>
+        <value>10-6-103-35-vm-jhdxyjd.mob.local:8030</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.resource-tracker.address.rm2</name>
+        <value>10-6-103-35-vm-jhdxyjd.mob.local:8031</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.admin.address.rm2</name>
+        <value>10-6-103-35-vm-jhdxyjd.mob.local:8033</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.webapp.address.rm2</name>
+        <value>10-6-103-35-vm-jhdxyjd.mob.local:8088</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.ha.admin.address.rm2</name>
+        <value>10-6-103-35-vm-jhdxyjd.mob.local:23142</value>
+    </property>
+
+    <!--日志聚合-->
+    <!--是否设置聚合，默认是false
+    日志聚合会收集container的日志然后将日志移动到文件系统例如hdfs，可配置yarn.nodemanager.remote-app-log-dir和yarn.nodemanager.remote-app-log-dir-suffix
+    决定这些日志移动的位置，等任务完成后，可以查看日志-->
+    <property>
+        <name>yarn.log-aggregation-enable</name>
+        <value>true</value>
+    </property>
+    <!--配置多久后聚合后的日志文件被删除, 配置成 -1 或者一个负值就不会删除聚合日志.-->
+    <property>
+        <name>yarn.log-aggregation.retain-seconds</name>
+        <value>12960000</value>
+    </property>
+    <!---确定多长时间去检查一次聚合日志的留存情况以执行日志的删除. 如果设置为0或者负值,那这个值就会用聚合日志的留存时间的十分之一来自动配置,默认值是-1.-->
+    <property>
+        <name>yarn.log-aggregation.retain-check-interval-seconds</name>
+        <value>-1</value>
+    </property>
+    <!---这是NMs将日志聚合后存放在默认的文件系统(一般就是 HDFS 上的)上的地址. 这个地址不应是本地的文件系统, 否则日志服务器会无法提供聚合后日志的能力.默认值是/tmp/logs.-->
+    <property>
+        <name>yarn.nodemanager.remote-app-log-dir</name>
+        <value>/logs</value>
+    </property>
+    <!--一旦一个应用结束, NMs 会将网页访问自动跳转到聚合日志的地址, 现在它指向的是 MapReduce 的 JobHistory.-->
+    <property>
+        <name>yarn.log.server.url</name>
+        <value>http://10-6-103-34-vm-jhdxyjd.mob.local:19888/jobhistory/logs</value>
+    </property>
+
+    <!--资源配置-->
+    <!--表示该节点上YARN可使用的虚拟CPU个数.默认是8.
+    目前推荐将该值设值为与物理CPU核数数目相同。如果你的节点CPU核数不够8个，则需要调减小这个值，而YARN不会智能的探测节点的物理CPU总数。
+    如果将其设置为-1，且yarn.nodemanager.resource.detect-hardware-capabilities为true，则在Windows和Linux情况下会自动根据硬件确定。-->
+    <property>
+        <name>yarn.nodemanager.resource.cpu-vcores</name>
+        <value>8</value>
+    </property>
+    <!--表示该节点上YARN可使用的内存，默认是8G.
+    如果将其设置为-1，且yarn.nodemanager.resource.detect-hardware-capabilities为true，则在Windows和Linux情况下会自动根据硬件确定。-->
+    <property>
+        <name>yarn.nodemanager.resource.memory-mb</name>
+        <value>8192</value>
+    </property>
+    <!--RM为每个container请求分配的最小的vcore数，默认1.
+    请求的vcore如果小于这个值，那么会分配该参数的值，如果一个节点yarn.nodemanager.resource.cpu-vcores配置的值小于该值则rm将关闭这个nm-->
+    <property>
+        <name>yarn.scheduler.minimum-allocation-vcores</name>
+        <value>1</value>
+    </property>
+    <!--RM为每个container请求分配的最大的cvore数，默认4。
+    如果请求的vcore超过该参数值则抛出InvalidResourceRequestException异常-->
+    <property>
+        <name>yarn.scheduler.maximum-allocation-vcores</name>
+        <value>4</value>
+    </property>
+    <!--RM为每个container请求分配的最小的内存，默认1G.
+    请求的内存如果小于这个值，那么会分配该参数的值，如果一个节点yarn.nodemanager.resource.memory-mb配置的值小于该值则rm将关闭这个nm-->
+    <property>
+        <name>yarn.scheduler.minimum-allocation-mb</name>
+        <value>1024</value>
+        <discription>单个任务可申请最少内存，默认1024MB</discription>
+    </property>
+    <!--RM为每个container请求分配的最大内存，默认8G。
+    如果请求的vcore超过该参数值则抛出InvalidResourceRequestException异常-->
+    <property>
+        <name>yarn.scheduler.maximum-allocation-mb</name>
+        <value>8192</value>
+    </property>
+    <!--是否启动一个线程检查每个任务正使用的虚拟内存量，如果任务超出分配值，则直接将其杀掉，默认是true-->
+    <property>
+        <name>yarn.nodemanager.vmem-check-enabled</name>
+        <value>true</value>
+    </property>
+    <!--是否启动一个线程检查每个任务正使用的物理内存量，如果任务超出分配值，则直接将其杀掉，默认是true。-->
+    <property>
+        <name>yarn.nodemanager.pmem-check-enabled</name>
+        <value>true</value>
+    </property>
+    <!--任务每使用1MB物理内存，最多可使用虚拟内存量，默认是2.1。-->
+    <property>
+        <name>yarn.nodemanager.vmem-pmem-ratio</name>
+        <value>4.2</value>
+    </property>
+
+    <!--调度配置-->
+    <!--调度策略fair、FIFO、capacity，默认capacity-->
+    <property>
+        <name>yarn.resourcemanager.scheduler.class</name>
+        <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler</value>
+    </property>
+    <!--Flag to enable cross-origin (CORS) support in the RM. This flag requires the CORS filter initializer to be added to the filter initializers list in core-site.xml.-->
+    <property>
+        <name>yarn.resourcemanager.webapp.cross-origin.enabled</name>
+        <value>true</value>
+    </property>
+    <!--Flag to enable cross-origin (CORS) support for timeline service v1.x or Timeline Reader in timeline service v2.
+    For timeline service v2, also add org.apache.hadoop.security.HttpCrossOriginFilterInitializer to the configuration hadoop.http.filter.initializers in core-site.xml.-->
+    <property>
+        <name>yarn.timeline-service.http-cross-origin.enabled</name>
+        <value>true</value>
+    </property>
+    <!--在一次nodemanager心跳中允许分配多个coniainer，默认开启-->
+    <property>
+        <name>yarn.scheduler.capacity.per-node-heartbeat.multiple-assignments-enabled</name>
+        <value>true</value>
+    </property>
+    <!--当multiple-assignments-enabled开启后，一次心跳最大分配的container，默认100-->
+    <property>
+        <name>yarn.scheduler.capacity.per-node-heartbeat.maximum-container-assignments</name>
+        <value>200</value>
+    </property>
+    <!--当multiple-assignments-enabled开启后，一次心跳最大分配的off-switch container，默认1-->
+    <!--MRAppMaster从ResourceManager申请到（部分）资源后，会通过一定的调度算法将资源进一步分配给内部的任务。对于Map Task而言，
+    一个重要的调度策略是数据本地性，即MRAppMaster会尽量将Map Task调度到它所处理的数据节点。
+    在分布式环境中，为了减少任务执行过程中的网络传输开销，通常将任务调度到输入数据所在计算节点，也就是让数据在本地进行计算，而MapReduce正是以“尽力而为”的策略保证数据本地性的。
+    为了实现数据本地性，MapReduce需要管理员提供集群的网络拓扑结构。如下图所示，Hadoop集群采用了三层网络拓扑结构，其中，根节点表示整个集群，
+    第一层代表数据中心，第二层代表机架或者交换机，第三层代表实际用于计算和存储的物理节点。对于目前的Hadoop各个发行版本而言，默认均采用了二层网络拓扑图结构，即数据中心一层暂时未被考虑。
+    MapReduce根据输入数据与实际分配的计算资源之间的距离将任务分成三类：node-local,rack-local和off-switch，分别表示输入数据与计算资源同节点，
+    同机架和跨机架，当输入数据与计算资源位于不同节点上时，MapReduce需将输入数据远程拷贝到计算资源所在的节点进行处理，两者距离越远，需要的网络开销越大，
+    因此调度器进行任务分配时尽量选择离输入数据近的节点资源。
+    当MapReduce进行任务选择时，采用自底向上查找的策略。由于当前采用了两层网络拓扑结构，因此这种选择决定了任务优先级从高到底依次为：node-local,rack-local和off-switch，
+    下面结合上图介绍的三种类型的任务被选中的场景：
+        （1）场景一：
+　　　　　　　　　　如果X是节点H1，任务Y输入数据块为b1，则该任务的数据本地性级别为node-local。
+        （2）场景二：
+　　　　　　　　　　如果X是节点H1，任务Y输入的数据块为b2，则该任务的数据本地行界别为rack-local。
+        （3）场景三：
+　　　　　　　　　　如果X是节点H1，任务Y输入的数据块为b4，则该任务的数据本地行界别为off-switch。
+　　MRAppMaster会尽可能让任务运行在输入数据块所在的节点上，其次是输入数据块同机架的节点上，最后考虑其他机架上的节点。为了提高任务的数据本性级别，
+   MapReduce采用了延迟掉的策略，即如果等待一段时间后，还未出现满足node-local要求的资源，则考虑满足rack-local需求的资源，如果等待一段时间后，
+   还未出现满足rack-local需求的资源，则将任务随意调度到有空闲节点的资源上。-->
+    <property>
+        <name>yarn.scheduler.capacity.per-node-heartbeat.maximum-offswitch-assignments</name>
+        <value>10</value>
+    </property>
+    <!--默认最大应用尝试次数。
+    每个application master可以通过API指定其最大的应用程序尝试次数，
+    但是该单独次数不能超过yarn.resourcemanager.am.global.max-attempts。 默认设置为2，允许至少一次重试。
+    如果yarn.resourcemanager.am.global.max-attempts未设置，则默认等于yarn.resourcemanager.am.max-attempts-->
+    <property>
+        <name>yarn.resourcemanager.am.max-attempts</name>
+        <value>4</value>
+    </property>
+    <!--acl队列访问控制，默认不启用-->
+    <property>
+        <name>yarn.acl.enable</name>
+        <value>true</value>
+    </property>
+
+    <!--yarn labels-->
+    <property>
+        <name>yarn.node-labels.enabled</name>
+        <value>true</value>
+    </property>
+    <!--URI for NodeLabelManager. The default value is /tmp/hadoop-yarn-${user}/node-labels/ in the local filesystem.
+    本地： file:///home/yarn/node-label can be used-->
+    <property>
+        <name>yarn.node-labels.fs-store.root-dir</name>
+        <value>/yarn-label</value>
+    </property>
+    <!--Set configuration type for node labels. “centralized”, “delegated-centralized” or “distributed”. Default value is “centralized”.-->
+    <property>
+        <name>yarn.node-labels.configuration-type</name>
+        <value>centralized</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.recovery.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.address</name>
+        <value>0.0.0.0:45454</value>
+    </property>
+</configuration>

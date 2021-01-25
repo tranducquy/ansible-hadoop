@@ -1,0 +1,3 @@
+---
+- name: deploy java
+  include: deploy_java.yml

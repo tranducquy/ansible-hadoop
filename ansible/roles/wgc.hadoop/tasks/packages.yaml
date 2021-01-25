@@ -1,0 +1,8 @@
+---
+#- name: rm repl
+#  raw:  rm -rf /etc/yum.repos.d/epel*
+- name: install packages about hadoop
+  yum: 
+    name: 
+      - psmisc
+    state: present

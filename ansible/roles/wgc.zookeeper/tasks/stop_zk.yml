@@ -1,0 +1,4 @@
+---
+- name: stop zookeeper
+  raw: su - hadoop -c "/opt/{{ zookeeper_version }}/bin/zkServer.sh stop"
+

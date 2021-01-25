@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+    <!--    <property>
+            <name>fs.defaultFS</name>
+            <value>hdfs://10.6.103.34:9000</value>
+        </property>-->
+    <!-- 这也是 federated namespace-->
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://mycluster01</value>
+    </property>
+    <!-- 指定hadoop运行时产生文件的存储目录 -->
+    <property>
+        <name>hadoop.tmp.dir</name>
+        <value>/data/apache/data/tmp/hadoop</value>
+    </property>
+    <property>
+        <name>hadoop.zk.address</name>
+        <value>10-6-103-34-vm-jhdxyjd.mob.local:12181,10-6-103-35-vm-jhdxyjd.mob.local:12181,10-6-103-36-vm-jhdxyjd.mob.local:12181</value>
+    </property>
+    <!--ZKFailoverController in automatic failover.-->
+    <property>
+        <name>ha.zookeeper.quorum</name>
+        <value>10-6-103-34-vm-jhdxyjd.mob.local:12181,10-6-103-35-vm-jhdxyjd.mob.local:12181,10-6-103-36-vm-jhdxyjd.mob.local:12181</value>
+    </property>
+    <!--压缩-->
+    <property>
+        <name>io.compression.codecs</name>
+        <value>org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.GzipCodec,org.apache.hadoop.io.compress.SnappyCodec,org.apache.hadoop.io.compress.ZStandardCodec,org.apache.hadoop.io.compress.Lz4Codec,org.apache.hadoop.io.compress.BZip2Codec</value>
+    </property>
+    <!--设置垃圾回收
+    回收站功能默认只适用于使用Hadoop shell删除的文件和目录。使用其他接口(例如WebHDFS或Java API)以编程的方式删除的文件或目录不会移动到回收站，即使已启用回收站，除非程序已经实现了对回收站功能的调用。-->
+    <!--trash检查点的删除间隔，单位分钟，默认0即禁用-->
+    <property>
+        <name>fs.trash.interval</name>
+        <value>4320</value>
+    </property>
+    <!--创建trash检查点的频率，单位分钟，此值必须<=fs.trash.interval,默认是0，若为0其值即设为fs.trash.interval.
+    每次运行检查点时，它都会从当前版本中创建一个新的检查点，并删除超过fs.trash.interval分钟之前创建的检查点-->
+    <property>
+        <name>fs.trash.checkpoint.interval</name>
+        <value>60</value>
+    </property>
+
+    <!--模拟其他用户https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/Superusers.html-->
+    <!--用户hadoop可以从任何主机连接来模拟任何组下的用户-->
+    <property>
+        <name>hadoop.proxyuser.hadoop.hosts</name>
+        <value>*</value>
+    </property>
+    <property>
+        <name>hadoop.proxyuser.hadoop.groups</name>
+        <value>*</value>
+    </property>
+
+    <!--客户端与服务端建立连接的最大重试次数，默认10-->
+    <property>
+        <name>ipc.client.connect.max.retries</name>
+        <value>30</value>
+    </property>
+    <!--客户端在尝试重新连接服务器之前等待的毫秒数，默认1000ms-->
+    <property>
+        <name>ipc.client.connect.retry.interval</name>
+        <value>3000</value>
+    </property>
+    <property>
+        <name>hadoop.prometheus.endpoint.enabled</name>
+        <value>true</value>
+    </property>
+    <!--umask-->
+    <property>
+        <name>fs.permissions.umask-mode</name>
+        <value>077</value>
+    </property>
+    <!--将此属性设置为true，并将rpc.metrics.percentiles.intervals设置为以逗号分隔的粒度列表（以秒为单位）
+    将rpc队列/处理时间的50/75/90/95/99th百分位延迟（以毫秒为单位）添加到rpc指标-->
+    <property>
+        <name>rpc.metrics.quantile.enable</name>
+        <value>true</value>
+    </property>
+    <!--解决nn webui Browse Directory报错：Permission denied: user=dr.who, access=READ_EXECUTE, inode="/":hadoop:hadoop:d700
+    hadoop.http.staticuser.user是hadoop中http访问的静态用户名，并没有啥特殊含义
+    -->
+    <property>
+        <name>hadoop.http.staticuser.user</name>
+        <value>hadoop</value>
+    </property>
+</configuration>

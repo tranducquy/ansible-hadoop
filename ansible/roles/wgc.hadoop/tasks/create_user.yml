@@ -1,0 +1,5 @@
+---
+- name: create user and group
+  block:
+    - group: name=hadoop gid={{ gid }}
+    - user: name=hadoop uid={{ uid }} group=hadoop

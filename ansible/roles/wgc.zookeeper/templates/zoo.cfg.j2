@@ -1,0 +1,13 @@
+tickTime=2000
+initLimit=10
+syncLimit=5
+dataDir=/data/apache/data/zookeeper/datalogs
+dataLogDir=/data/apache/data/zookeeper/logs
+clientPort={{ zookeeper_port }}
+autopurge.snapRetainCount=5
+autopurge.purgeInterval=24
+maxClientCnxns=1000
+{% for host in zookeeper_hosts %}
+server.{{ hostvars[host].id }}={{ host }}:6888:7888
+{% endfor %}
+4lw.commands.whitelist=*

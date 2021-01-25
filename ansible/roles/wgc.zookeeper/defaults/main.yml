@@ -1,0 +1,6 @@
+---
+zookeeper_version: apache-zookeeper-3.5.8-bin
+app_name: zookeeper
+id: "{{ inventory_hostname.split('.')[3] }}"
+zookeeper_port: 12181
+zookeeper_hosts: "{{groups['zookeepers']}}"

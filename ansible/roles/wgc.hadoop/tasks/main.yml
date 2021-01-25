@@ -1,0 +1,21 @@
+---
+- name: config linux env
+  include: optimize.yml
+
+- name: install needed pkgs
+  include: packages.yml
+
+- name: create user
+  include: create_user.yml
+
+- name: create directory
+  include: create_dirs.yml
+
+- name: add hadoop variables to profile
+  include: source_env.yml
+
+- name: copy tgz pkgs and unarchive
+  include: deploy_hadoop.yml
+
+- name: copy hdfs config files
+  include: copy_config.yml

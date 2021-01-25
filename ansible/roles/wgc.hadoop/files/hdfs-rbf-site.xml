@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+LicensedundertheApacheLicense,Version2.0(the"License");
+youmaynotusethisfileexceptincompliancewiththeLicense.
+YoumayobtainacopyoftheLicenseat
+
+https://www.apache.org/licenses/LICENSE-2.0
+
+Unlessrequiredbyapplicablelaworagreedtoinwriting,software
+distributedundertheLicenseisdistributedonan"ASIS"BASIS,
+WITHOUTWARRANTIESORCONDITIONSOFANYKIND,eitherexpressorimplied.
+SeetheLicenseforthespecificlanguagegoverningpermissionsand
+ limitations under the License.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+    <property>
+        <name>dfs.federation.router.store.driver.class</name>
+        <value>org.apache.hadoop.hdfs.server.federation.store.driver.impl.StateStoreZooKeeperImpl</value>
+    </property>
+    <!--当未指定挂载点时，router将默认路由到该参数下的子集群-->
+    <property>
+        <name>dfs.federation.router.default.nameserviceId</name>
+        <value>mycluster01</value>
+    </property>
+    <!--启用默认的子集群，默认启用-->
+    <property>
+        <name>dfs.federation.router.default.nameservice.enable</name>
+        <value>true</value>
+    </property>
+    <!--If true, the RPC service to handle client requests in the router is enabled.默认true-->
+    <property>
+        <name>dfs.federation.router.rpc.enable</name>
+        <value>true</value>
+    </property>
+    <!--RPC address that handles all clients requests-->
+    <property>
+        <name>dfs.federation.router.rpc-address</name>
+        <value>0.0.0.0:8888</value>
+    </property>
+    <property>
+        <name>dfs.federation.router.rpc-bind-host</name>
+        <value>0.0.0.0</value>
+    </property>
+    <!--The number of server threads for the router to handle RPC requests from clients.默认10-->
+    <property>
+        <name>dfs.federation.router.handler.count</name>
+        <value>20</value>
+    </property>
+    <!--The size of the queue for the number of handlers to handle RPC client requests.默认100-->
+    <property>
+        <name>dfs.federation.router.handler.queue.size</name>
+        <value>200</value>
+    </property>
+    <!--The number of readers for the router to handle RPC client requests.默认1-->
+    <property>
+        <name>dfs.federation.router.reader.count</name>
+        <value>5</value>
+    </property>
+    <!--The size of the queue for the number of readers for the router to handle RPC client requests.默认100-->
+    <property>
+        <name>dfs.federation.router.reader.queue.size</name>
+        <value>100</value>
+    </property>
+
+    <!--router转发客户端请求到namenode，使用线程池连接以减少创建连接的延迟-->
+    <!--连接池大小，默认1-->
+    <property>
+        <name>dfs.federation.router.connection.pool-size</name>
+        <value>6</value>
+    </property>
+    <property>
+        <name>dfs.federation.router.metrics.enable</name>
+        <value>true</value>
+    </property>
+    <!--允许在router之间平衡负载-->
+    <property>
+        <name>dfs.client.failover.random.order</name>
+        <value>true</value>
+    </property>
+    <!--解析文件属于哪个子集群，如果允许一个挂载点对应多个子集群，要把此参数设置为org.apache.hadoop.hdfs.server.federation.resolver.MultipleDestinationMountTableResolver.-->
+    <property>
+        <name>dfs.federation.router.file.resolver.client.class</name>
+        <value>org.apache.hadoop.hdfs.server.federation.resolver.MultipleDestinationMountTableResolver</value>
+    </property>
+</configuration>

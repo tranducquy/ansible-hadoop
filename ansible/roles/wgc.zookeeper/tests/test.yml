@@ -1,0 +1,4 @@
+- name: Deploy Zookeeper
+  hosts: zookeepers
+  roles:
+    - name: wgc.zookeeper
