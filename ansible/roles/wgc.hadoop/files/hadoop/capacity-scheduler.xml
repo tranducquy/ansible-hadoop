@@ -12,21 +12,6 @@
   See the License for the specific language governing permissions and
   limitations under the License. See accompanying LICENSE file.
 -->
-  <!--指定用户或组到特定队列的映射。
-  可以将单个用户或用户列表映射到队列。 [u or g]:[name]:[queue_name][,next_mapping]*
-  u或g表示映射是针对用户还是针对组。要指定提交了申请的用户，可以使用％user。要指定与用户名相同的队列名，可以使用％user。 要指定与用户所属的主要组名称相同的队列名称，
-  可以使用％primary_group。 辅助组可以引用为％secondary_group-->
-  <property>
-    <name>yarn.scheduler.capacity.queue-mappings</name>
-    <value>u:wgc:wgc,u:eda:eda</value>
-    <description>
-      A list of mappings that will be used to assign jobs to queues
-      The syntax for this list is [u|g]:[name]:[queue_name][,next mapping]*
-      Typically this list will be used to map users to queues,
-      for example, u:%user:%user maps all users to queues with the same name
-      as the user.
-    </description>
-  </property>
   <!--默认10000-->
   <property>
     <name>yarn.scheduler.capacity.maximum-applications</name>
@@ -59,6 +44,7 @@
     </description>
   </property>
 
+  <!-- 子队列-->
   <property>
     <name>yarn.scheduler.capacity.root.queues</name>
     <value>default,wgc,eda</value>
@@ -67,28 +53,30 @@
     </description>
   </property>
 
-  <!--哪些用户和组有权限提交任务到队列中。root父队列的权限需要控制住
-  子队列会继承父队列的权限，在父队列有权限的话，就能在子队列提交任务，acl检查从子节点到root节点
-  空格表示任何人都无法往root队列提交作业-->
+  <!--ACL继承性，父队列需控制住权限，任何用户或组都不能向父队列提交任务。
+  队列的ACL的控制对象为user或group，设置相关参数时，user和group可以同时设置，中间用空格分开，user/group内部可用逗号分开，只有一个空格表示任何人都没有权限。
+  队列ACL继承：如果一个user或group可以向某个队列中提交应用程序，则它可以向它的所有子队列中提交应用程序，同理管理队列的ACL也具有继承性。
+  所以如果要防止某个user或group提交作业到某个队列，则需要设置该队列以及该队列的所有父队列的ACL来限制该user/group的提交作业的权限。-->
   <property>
     <name>yarn.scheduler.capacity.root.acl_submit_applications</name>
     <value> </value>
   </property>
-  <!--设置哪些用户或组能管理队列例如中止队列中作业等-->
+  <!--ACL继承性，父队列需控制住权限
+  设置哪些用户或组能管理队列例如中止队列中作业等-->
   <property>
     <name>yarn.scheduler.capacity.root.acl_administer_queue</name>
     <value> </value>
   </property>
 
-  <!--设置可以访问属于默认分区的节点的队列百分比。每个父节点下直系子节点的默认容量总和必须等于100。-->
+  <!--default队列的容量，设为0，禁止使用default队列-->
   <property>
     <name>yarn.scheduler.capacity.root.default.capacity</name>
     <value>100</value>
     <description>Default queue target capacity.</description>
   </property>
 
-  <!-- 定义队列可以访问的节点标签。
-  “ *”表示队列可以访问所有节点标签；“”（空格）表示队列只能访问默认分区-->
+  <!-- 定义队列可以访问的节点标签。 root.deafult队列只能访问默认的分区节点
+  “ *”表示队列可以访问所有节点标签；“”（空格）表示队列只能访问默认分区节点-->
   <property>
     <name>yarn.scheduler.capacity.root.default.accessible-node-labels</name>
     <value> </value>
@@ -107,33 +95,33 @@
     <name>yarn.scheduler.capacity.root.accessible-node-labels</name>
     <value>*</value>
   </property>
-  <!--定义队列（root）可以访问标签分区(wgcLabel)节点的百分比-->
+  <!--定义队列（root）可以访问标签分区(wgc)节点的百分比-->
   <property>
-    <name>yarn.scheduler.capacity.root.accessible-node-labels.wgcLabel.capacity</name>
+    <name>yarn.scheduler.capacity.root.accessible-node-labels.wgc.capacity</name>
     <value>100</value>
   </property>
   <property>
-    <name>yarn.scheduler.capacity.root.accessible-node-labels.edaLabel.capacity</name>
+    <name>yarn.scheduler.capacity.root.accessible-node-labels.eda.capacity</name>
     <value>100</value>
   </property>
-  <!--root.wgc队列能访问的标签是wgcLabel-->
+  <!--root.wgc队列能访问的标签是wgc-->
   <property>
     <name>yarn.scheduler.capacity.root.wgc.accessible-node-labels</name>
-    <value>wgcLabel</value>
+    <value>wgc</value>
   </property>
-  <!--root.wgc默认访问的标签是wgcLabel-->
+  <!--root.wgc默认访问的标签是wgc-->
   <property>
     <name>yarn.scheduler.capacity.root.wgc.default-node-label-expression</name>
-    <value>wgcLabel</value>
+    <value>wgc</value>
   </property>
-  <!--定义队列（root.wgc）可以访问标签(wgcLabel)分区节点的百分比-->
+  <!--定义队列（root.wgc）可以访问标签(wgc)分区节点的百分比-->
   <property>
-    <name>yarn.scheduler.capacity.root.wgc.accessible-node-labels.wgcLabel.capacity</name>
+    <name>yarn.scheduler.capacity.root.wgc.accessible-node-labels.wgc.capacity</name>
     <value>100</value>
   </property>
-  <!--类似于yarn.scheduler.capacity.<queue-path>.maximum-capacity，它用于每个队列的标签的最大容量。默认情况下为100。-->
+  <!--定义队列root.wgc可以访问标签wgc节点的最大容量。默认情况下为100。-->
   <property>
-    <name>yarn.scheduler.capacity.root.wgc.accessible-node-labels.wgcLabel.maximum-capacity</name>
+    <name>yarn.scheduler.capacity.root.wgc.accessible-node-labels.wgc.maximum-capacity</name>
     <value>100</value>
   </property>
 
@@ -155,18 +143,18 @@
   <!--按照定义wgc队列和标签的方法再定义队列eda和标签-->
   <property>
     <name>yarn.scheduler.capacity.root.eda.accessible-node-labels</name>
-    <value>edaLabel</value>
+    <value>eda</value>
   </property>
   <property>
     <name>yarn.scheduler.capacity.root.eda.default-node-label-expression</name>
-    <value>edaLabel</value>
+    <value>eda</value>
   </property>
   <property>
-    <name>yarn.scheduler.capacity.root.eda.accessible-node-labels.edaLabel.capacity</name>
+    <name>yarn.scheduler.capacity.root.eda.accessible-node-labels.eda.capacity</name>
     <value>100</value>
   </property>
   <property>
-    <name>yarn.scheduler.capacity.root.eda.accessible-node-labels.edaLabel.maximum-capacity</name>
+    <name>yarn.scheduler.capacity.root.eda.accessible-node-labels.eda.maximum-capacity</name>
     <value>100</value>
   </property>
   <property>
@@ -179,7 +167,7 @@
   </property>
   <property>
     <name>yarn.scheduler.capacity.root.eda.maximum-applications</name>
-    <value>40</value>
+    <value>100</value>
   </property>
 
   <!--这个参数的含义是允许单个用户最多可获取的队列资源的倍数。默认值为1，确保单个用户无论集群有多空闲，永远不会占用超过队列配置的资源，
@@ -202,25 +190,28 @@
     </description>
   </property>
 
+  <!--default队列状态设置-->
   <property>
     <name>yarn.scheduler.capacity.root.default.state</name>
-    <value>RUNNING</value>
+    <value>STOPPED</value>
     <description>
       The state of the default queue. State can be one of RUNNING or STOPPED.
     </description>
   </property>
 
+  <!--default队列禁止提交作业-->
   <property>
     <name>yarn.scheduler.capacity.root.default.acl_submit_applications</name>
-    <value>*</value>
+    <value> </value>
     <description>
       The ACL of who can submit jobs to the default queue.
     </description>
   </property>
 
+  <!--禁止管理default队列-->
   <property>
     <name>yarn.scheduler.capacity.root.default.acl_administer_queue</name>
-    <value>*</value>
+    <value> </value>
     <description>
       The ACL of who can administer jobs on the default queue.
     </description>
@@ -301,9 +292,25 @@
     </description>
   </property>
 
+  <!--指定用户或组到特定队列的映射。
+  可以将单个用户或用户列表映射到队列。 [u or g]:[name]:[queue_name][,next_mapping]*
+  u或g表示映射是针对用户还是针对组。要指定提交了申请的用户，可以使用％user。要指定与用户名相同的队列名，可以使用％user。 要指定与用户所属的主要组名称相同的队列名称，
+  可以使用％primary_group。 辅助组可以引用为％secondary_group-->
+  <property>
+    <name>yarn.scheduler.capacity.queue-mappings</name>
+    <value>u:wgc:wgc,u:eda:eda</value>
+    <description>
+      A list of mappings that will be used to assign jobs to queues
+      The syntax for this list is [u|g]:[name]:[queue_name][,next mapping]*
+      Typically this list will be used to map users to queues,
+      for example, u:%user:%user maps all users to queues with the same name
+      as the user.
+    </description>
+  </property>
+  <!--上述queue-mappings设置的映射，是否覆盖客户端设置的队列参数-->
   <property>
     <name>yarn.scheduler.capacity.queue-mappings-override.enable</name>
-    <value>false</value>
+    <value>true</value>
     <description>
       If a queue mapping is present, will it override the value specified
       by the user? This can be used by administrators to place jobs in queues

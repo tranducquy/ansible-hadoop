@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+    <!--执行mr作业的框架可以是local,classic,yarn-->
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+    <!--mr存放中间数据的本地目录-->
+    <property>
+        <name>mapreduce.cluster.local.dir</name>
+        <value>/data/apache/data/mapred/mr</value>
+    </property>
+    <!-- 配置 MapReduce JobHistory Server IPC地址 ，默认端口10020 -->
+    <property>
+        <name>mapreduce.jobhistory.address</name>
+        <value>0.0.0.0:10020</value>
+    </property>
+    <!-- 配置 MapReduce JobHistory Server web ui 地址， 默认端口19888 -->
+    <property>
+        <name>mapreduce.jobhistory.webapp.address</name>
+        <value>0.0.0.0:19888</value>
+    </property>
+    <!--scheduler为每个map任务请求的内存，若不指定，则根据mapreduce.map.java.opts和mapreduce.job.heap.memory-mb.ratio推断，若这2参数也未配置
+    则默认设为1024mb-->
+    <property>
+        <name>mapreduce.map.memory.mb</name>
+        <value>1024</value>
+    </property>
+    <!--scheduler为每个map任务请求的内存，若不指定，则根据mapreduce.reduce.java.opts和mapreduce.job.heap.memory-mb.ratio推断，若这2参数也未配置
+    则默认设为1024mb-->
+    <property>
+        <name>mapreduce.reduce.memory.mb</name>
+        <value>1024</value>
+    </property>
+    <!--文件排序的buffer大小，MB，默认100-->
+    <property>
+        <name>mapreduce.task.io.sort.mb</name>
+        <value>100</value>
+    </property>
+    <!-- MR ApplicationMaster占用的内存量 -->
+    <property>
+        <name>yarn.app.mapreduce.am.resource.mb</name>
+        <value>1024</value>
+    </property>
+    <!--排序时合并的流的数量，默认10-->
+    <property>
+        <name>mapreduce.task.io.sort.factor</name>
+        <value>10</value>
+    </property>
+    <!--在copy（shuffle）阶段，reduce运行默认的并行传输数，默认5-->
+    <property>
+        <name>mapreduce.reduce.shuffle.parallelcopies</name>
+        <value>5</value>
+    </property>
+    <!-- 是否对Map Task启用推测执行机制 -->
+    <property>
+        <name>mapreduce.map.speculative</name>
+        <value>false</value>
+    </property>
+    <!--是否压缩job的输出结果-->
+    <property>
+        <name>mapreduce.output.fileoutputformat.compress</name>
+        <value>true</value>
+    </property>
+    <!--若开启job的输出结果压缩，其压缩方式,这里设置未snappy-->
+    <property>
+        <name>mapreduce.output.fileoutputformat.compress.codec</name>
+        <value>org.apache.hadoop.io.compress.SnappyCodec</value>
+    </property>
+    <!--如果将job输出压缩为SequenceFiles，应如何压缩它们？应该是NONE，RECORD或BLOCK之一。 -->
+    <property>
+        <name>mapreduce.output.fileoutputformat.compress.type</name>
+        <value>BLOCK</value>
+    </property>
+
+    <property>
+        <name>mapred.child.java.opts</name>
+        <value>-Xmx1024m</value>
+    </property>
+
+    <property>
+        <name>yarn.app.mapreduce.am.env</name>
+        <value>HADOOP_MAPRED_HOME=${HADOOP_HOME}</value>
+    </property>
+    <property>
+        <name>mapreduce.map.env</name>
+        <value>HADOOP_MAPRED_HOME=${HADOOP_HOME}</value>
+    </property>
+    <property>
+        <name>mapreduce.reduce.env</name>
+        <value>HADOOP_MAPRED_HOME=${HADOOP_HOME}</value>
+    </property>
+
+    <!--当map task完成的比例达到该值后才会为reduce task申请资源，默认是0.05-->
+    <property>
+        <name>mapreduce.job.reduce.slowstart.completedmaps</name>
+        <value>0.7</value>
+    </property>
+    <!--在map task完成之前，最多启动reduce task比例，默认是0.5-->
+    <property>
+        <name>yarn.app.mapreduce.am.job.reduce.rampup.limit</name>
+        <value>0.4</value>
+    </property>
+</configuration>
