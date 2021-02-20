@@ -5,7 +5,7 @@
     - user: name=hadoop group=hadoop
 
 - name: set user passwd
-  raw: echo qazWSXedc1243 | passwd --stdin hadoop
+  raw: echo 123456 | passwd --stdin hadoop
 
 - name: enable hadoop sudo
   lineinfile:
