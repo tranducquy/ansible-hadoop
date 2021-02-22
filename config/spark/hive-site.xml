@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <!--在hdfs上hive数据存放目录，启动hadoop后需要在hdfs上手动创建 -->
+    <property>
+        <name>hive.metastore.warehouse.dir</name>
+        <value>/user/hive/warehouse</value>
+    </property>
+    <!--通过jdbc协议连接mysql的hive库 -->
+    <property>
+        <name>javax.jdo.option.ConnectionURL</name>
+        <value>jdbc:mysql://10.21.33.28:23306/hive?createDatabaseIfNotExist=true&amp;useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</value>
+        <description>JDBC connect string for a JDBC metastore</description>
+    </property>
+    <!--jdbc的mysql驱动 -->
+    <property>
+        <name>javax.jdo.option.ConnectionDriverName</name>
+        <value>com.mysql.jdbc.Driver</value>
+        <description>Driver class name for a JDBC metastore</description>
+    </property>
+    <!--mysql用户名 -->
+    <property>
+        <name>javax.jdo.option.ConnectionUserName</name>
+        <value>hive_trd</value>
+        <description>username to use against metastore database</description>
+    </property>
+    <!--mysql用户密码 -->
+    <property>
+        <name>javax.jdo.option.ConnectionPassword</name>
+        <value>TESTf2UmHZtdmhev</value>
+        <description>password to use against metastore database</description>
+    </property>
+    <property>
+        <name>hive.server2.long.polling.timeout</name>
+        <value>5000</value>
+    </property>
+    <property>
+        <name>system:java.io.tmpdir</name>
+        <value>
+            /hadoop/data/tmp/hive,/hadoop1/data/tmp/hive,/hadoop2/data/tmp/hive,/hadoop3/data/tmp/hive,/hadoop4/data/tmp/hive,/hadoop5/data/tmp/hive,/hadoo6/data/tmp/hive,/hadoop7/data/tmp/hive,/hadoop8/data/tmp/hive,/hadoop9/data/tmp/hive,/hadoop10/data/tmp/hive,/hadoop11/data/tmp/hive
+        </value>
+    </property>
+    <!-- 设置为false，查询将以运行hiveserver2进程的用户运行 -->
+    <property>
+        <name>hive.server2.enable.doAs</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.server2.active.passive.ha.enable</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.metastore.event.db.notification.api.auth</name>
+        <value>false</value>
+    </property>
+    <!-- 并发执行 -->
+    <property>
+        <name>hive.exec.parallel</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.exec.parallel.thread.number</name>
+        <value>16</value>
+        <description>How many jobs at most can be executed in parallel
+        </description>
+    </property>
+    <!-- 开启动态分区 -->
+    <property>
+        <name>hive.exec.dynamic.partition</name>
+        <value>true</value>
+    </property>
+    <!-- 动态分区的模式，默认strict，表示必须指定至少一个分区为静态分区，nonstrict模式表示允许所有的分区字段都可以使用动态分区 -->
+    <property>
+        <name>hive.exec.dynamic.partition.mode</name>
+        <value>nonstrict</value>
+    </property>
+    <!-- 在每个执行MR的节点上，最大可以创建多少个动态分区 ,源数据中包含了一年的数据，即day字段有365个值，那么该参数就需要设置成大于365，如果使用默认值100，则会报错 -->
+    <property>
+        <name>hive.exec.max.dynamic.partitions.pernode</name>
+        <value>1000000</value>
+    </property>
+    <!-- 在所有执行MR的节点上，最大一共可以创建多少个动态分区 -->
+    <property>
+        <name>hive.exec.max.dynamic.partitions</name>
+        <value>100000</value>
+    </property>
+    <property>
+        <name>hive.exec.max.created.files</name>
+        <value>3000000</value>
+    </property>
+
+    <!--配置thrift -->
+    <property>
+        <name>hive.server2.thrift.port</name>
+        <value>10000</value>
+    </property>
+
+    <!-- 决定查询的中间 map/reduce job （中间 stage）的输出是否为压缩格式 -->
+    <property>
+        <name>hive.exec.compress.intermediate</name>
+        <value>true</value>
+    </property>
+    <!-- 配置hiveserver2 HA -->
+    <property>
+        <name>hive.server2.support.dynamic.service.discovery</name>
+        <value>true</value>
+        <description>Whether HiveServer2 supports dynamic service discovery
+            for its clients.
+        </description>
+    </property>
+    <property>
+        <name>hive.zookeeper.quorum</name>
+        <value>10.90.48.139:2181,10.90.48.140:2181,10.90.48.141:2181,10.90.48.142:2181,10.90.48.134:2181</value>
+    </property>
+    <property>
+        <name>hive.server2.zookeeper.namespace</name>
+        <value>hiveserver2</value>
+        <description>The parent node in ZooKeeper used by HiveServer2 when
+            supporting dynamic service discovery.
+        </description>
+    </property>
+    <property>
+        <name>hive.metastore.local</name>
+        <value>false</value>
+    </property>
+    <!--配置metastore HA -->
+    <property>
+        <name>hive.metastore.uris</name>
+        <value>thrift://10.90.48.139:9083,thrift://10.90.48.140:9083,thrift://10.90.48.141:9083,thrift://10.90.48.142:9083</value>
+        <description>A comma separated list of metastore uris on
+            whichmetastore service is running
+        </description>
+    </property>
+    <!-- 代理token的存储实现类做负载均衡集群 -->
+    <property>
+        <name>hive.cluster.delegation.token.store.class</name>
+        <value>org.apache.hadoop.hive.thrift.DBTokenStore</value>
+    </property>
+    <!-- 对于简单的不需要聚合的类似SELECT <col> from <table> LIMIT n语句，不需要起MapReduce job，直接通过Fetch task获取数据 -->
+    <property>
+        <name>hive.fetch.task.conversion</name>
+        <value>more</value>
+    </property>
+    <!-- 对数据量比较小的操作，就可以在本地执行，这样要比提交任务到集群执行效率要快很多 当一个job满足如下条件才能真正使用本地模式： 1.job的输入数据大小必须小于参数：hive.exec.mode.local.auto.inputbytes.max(默认128MB) 2.job的map数必须小于参数：hive.exec.mode.local.auto.tasks.max(默认4)
+        3.job的reduce数必须为0或者1 -->
+    <property>
+        <name>hive.exec.mode.local.auto</name>
+        <value>false</value>
+    </property>
+    <!-- 当多个GROUP BY语句有相同的分组列，则会优化为一个MR任务 -->
+    <property>
+        <name>hive.multigroupby.singlereducer</name>
+        <value>true</value>
+    </property>
+    <!-- Hive的数据文件压缩 -->
+    <property>
+        <name>hive.exec.compress.output</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>mapred.output.compress</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>mapred.output.compression.codec</name>
+        <value>org.apache.hadoop.io.compress.SnappyCodec</value>
+    </property>
+    <property>
+        <name>io.compression.codecs</name>
+        <value>org.apache.hadoop.io.compress.SnappyCodec</value>
+    </property>
+    <property>
+        <name>datanucleus.schema.autoCreateAll</name>
+        <value>true</value>
+        <description>creates necessary schema on a startup if one doesn't exist. set this to false, after creating it
+            once
+        </description>
+    </property>
+    <property>
+        <name>hive.metastore.schema.verification</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>hive.cli.print.current.db</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.cli.print.header</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.execution.engine</name>
+        <value>mr</value>
+    </property>
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+
+    <!--hive Recommended Configuration -->
+    <property>
+        <name>mapreduce.input.fileinputformat.split.maxsize</name>
+        <value>268435456</value>
+    </property>
+    <property>
+        <name>hive.vectorized.execution.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.cbo.enable</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.optimize.reducededuplication.min.reducer</name>
+        <value>4</value>
+    </property>
+    <property>
+        <name>hive.optimize.reducededuplication</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.orc.splits.include.file.footer</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>hive.merge.mapfiles</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.merge.mapredfiles</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.input.format</name>
+        <value>org.apache.hadoop.hive.ql.io.CombineHiveInputFormat</value>
+    </property>
+    <property>
+        <name>hive.merge.sparkfiles</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>hive.merge.smallfiles.avgsize</name>
+        <value>16000000</value>
+    </property>
+    <property>
+        <name>hive.merge.size.per.task</name>
+        <value>256000000</value>
+    </property>
+    <property>
+        <name>hive.merge.orcfile.stripe.level</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.auto.convert.join</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>hive.auto.convert.join.noconditionaltask</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.auto.convert.join.noconditionaltask.size</name>
+        <value>894435328</value>
+    </property>
+    <property>
+        <name>hive.optimize.bucketmapjoin.sortedmerge</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>hive.map.aggr.hash.percentmemory</name>
+        <value>0.5</value>
+    </property>
+    <property>
+        <name>hive.map.aggr</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.optimize.sort.dynamic.partition</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>hive.stats.autogather</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.stats.fetch.column.stats</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.vectorized.execution.reduce.enabled</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>hive.vectorized.groupby.checkinterval</name>
+        <value>4096</value>
+    </property>
+    <property>
+        <name>hive.vectorized.groupby.flush.percent</name>
+        <value>0.1</value>
+    </property>
+    <property>
+        <name>hive.compute.query.using.stats</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.limit.pushdown.memory.usage</name>
+        <value>0.4</value>
+    </property>
+    <property>
+        <name>hive.optimize.index.filter</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>hive.exec.reducers.bytes.per.reducer</name>
+        <value>256000000</value>
+    </property>
+    <property>
+        <name>hive.smbjoin.cache.rows</name>
+        <value>10000</value>
+    </property>
+    <property>
+        <name>hive.exec.orc.default.stripe.size</name>
+        <value>67108864</value>
+    </property>
+    <property>
+        <name>hive.fetch.task.conversion.threshold</name>
+        <value>1073741824</value>
+    </property>
+    <property>
+        <name>hive.fetch.task.aggr</name>
+        <value>false</value>
+    </property>
+    <property>
+        <name>mapreduce.input.fileinputformat.list-status.num-threads</name>
+        <value>5</value>
+    </property>
+    <property>
+        <name>hive.default.fileformat</name>
+        <value>orc</value>
+    </property>
+
+</configuration>

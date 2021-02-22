@@ -1,0 +1,6 @@
+server.1=10.90.48.139:2888:3888:participant
+server.2=10.90.48.140:2888:3888:participant
+server.3=10.90.48.141:2888:3888:participant
+server.4=10.90.48.142:2888:3888:participant
+server.5=10.90.48.134:2888:3888:participant
+version=100000000

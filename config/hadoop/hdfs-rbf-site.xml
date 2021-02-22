@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+LicensedundertheApacheLicense,Version2.0(the"License");
+youmaynotusethisfileexceptincompliancewiththeLicense.
+YoumayobtainacopyoftheLicenseat
+
+https://www.apache.org/licenses/LICENSE-2.0
+
+Unlessrequiredbyapplicablelaworagreedtoinwriting,software
+distributedundertheLicenseisdistributedonan"ASIS"BASIS,
+WITHOUTWARRANTIESORCONDITIONSOFANYKIND,eitherexpressorimplied.
+SeetheLicenseforthespecificlanguagegoverningpermissionsand
+ limitations under the License.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+
+    <property>
+        <name>dfs.federation.router.default.nameserviceId</name>
+        <value>mobPrdCluster01</value>
+    </property>
+    <property>
+        <name>dfs.federation.router.default.nameservice.enable</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>dfs.federation.router.rpc.enable</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>dfs.federation.router.rpc-address</name>
+        <value>0.0.0.0:8888</value>
+    </property>
+    <property>
+        <name>dfs.federation.router.rpc-bind-host</name>
+        <value>0.0.0.0</value>
+    </property>
+    <property>
+        <name>dfs.federation.router.handler.count</name>
+        <value>20</value>
+    </property>
+    <property>
+        <name>dfs.federation.router.handler.queue.size</name>
+        <value>200</value>
+    </property>
+    <property>
+        <name>dfs.federation.router.reader.count</name>
+        <value>5</value>
+    </property>
+    <property>
+        <name>dfs.federation.router.reader.queue.size</name>
+        <value>100</value>
+    </property>
+    <property>
+        <name>dfs.federation.router.connection.pool-size</name>
+        <value>6</value>
+    </property>
+    <property>
+        <name>dfs.federation.router.metrics.enable</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>dfs.client.failover.random.order</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>dfs.federation.router.file.resolver.client.class</name>
+        <value>org.apache.hadoop.hdfs.server.federation.resolver.MultipleDestinationMountTableResolver</value>
+    </property>
+</configuration>

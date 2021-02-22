@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--
+LicensedundertheApacheLicense,Version2.0(the"License");
+youmaynotusethisfileexceptincompliancewiththeLicense.
+YoumayobtainacopyoftheLicenseat
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unlessrequiredbyapplicablelaworagreedtoinwriting,software
+distributedundertheLicenseisdistributedonan"ASIS"BASIS,
+WITHOUTWARRANTIESORCONDITIONSOFANYKIND,eitherexpressorimplied.
+SeetheLicense for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+    <!-- mapred框架名 -->
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+    <property>
+        <name>mapreduce.cluster.local.dir</name>
+        <value>
+            /hadoop/data/mapred/mrlocal,/hadoop1/data/mapred/mrlocal,/hadoop2/data/mapred/mrlocal,/hadoop3/data/mapred/mrlocal,/hadoop4/data/mapred/mrlocal,/hadoop5/data/mapred/mrlocal,/hadoop6/data/mapred/mrlocal,/hadoop7/data/mapred/mrlocal,/hadoop8/data/mapred/mrlocal,/hadoop9/data/mapred/mrlocal,/hadoop10/data/mapred/mrlocal,/hadoop11/data/mapred/mrlocal
+        </value>
+    </property>
+
+    <!-- 配置 MapReduce JobHistory Server 地址 ，默认端口10020 -->
+    <property>
+        <name>mapreduce.jobhistory.address</name>
+        <value>0.0.0.0:10020</value>
+    </property>
+    <!-- 配置 MapReduce JobHistory Server web ui 地址， 默认端口19888 -->
+    <property>
+        <name>mapreduce.jobhistory.webapp.address</name>
+        <value>0.0.0.0:19888</value>
+    </property>
+    <!-- 一个map上可分配container使用的物理内存大小 -->
+    <property>
+        <name>mapreduce.map.memory.mb</name>
+        <value>2048</value>
+    </property>
+    <!-- 一个reduce上可分配container使用的物理内存大小 -->
+    <property>
+        <name>mapreduce.reduce.memory.mb</name>
+        <value>4096</value>
+    </property>
+    <!-- 任务内部排序缓冲区大小，默认100 -->
+    <property>
+        <name>mapreduce.task.io.sort.mb</name>
+        <value>512</value>
+    </property>
+    <!-- MR ApplicationMaster占用的内存量 -->
+    <property>
+        <name>yarn.app.mapreduce.am.resource.mb</name>
+        <value>1024</value>
+    </property>
+    <!-- 排序文件的时候一次同时最多可并流的个数 默认10 -->
+    <property>
+        <name>mapreduce.task.io.sort.factor</name>
+        <value>100</value>
+    </property>
+    <!-- reuduce shuffle阶段并行传输数据的数量,默认5 -->
+    <property>
+        <name>mapreduce.reduce.shuffle.parallelcopies</name>
+        <value>50</value>
+    </property>
+    <!-- 是否对Map Task启用推测执行机制 -->
+    <property>
+        <name>mapreduce.map.speculative</name>
+        <value>false</value>
+    </property>
+    <!-- 设置压缩 -->
+    <property>
+        <name>mapreduce.output.fileoutputformat.compress</name>
+        <value>true</value>
+    </property>
+    <!-- Snappy压缩方式 -->
+    <property>
+        <name>mapreduce.output.fileoutputformat.compress.codec</name>
+        <value>org.apache.hadoop.io.compress.SnappyCodec</value>
+    </property>
+    <!-- If the job outputs are to compressed as SequenceFiles -->
+    <property>
+        <name>mapreduce.output.fileoutputformat.compress.type</name>
+        <value>BLOCK</value>
+    </property>
+    <property>
+        <name>mapred.child.java.opts</name>
+        <value>-Xmx1024m</value>
+    </property>
+
+    <property>
+        <name>yarn.app.mapreduce.am.env</name>
+        <value>HADOOP_MAPRED_HOME=${HADOOP_HOME}</value>
+    </property>
+    <property>
+        <name>mapreduce.map.env</name>
+        <value>HADOOP_MAPRED_HOME=${HADOOP_HOME}</value>
+    </property>
+    <property>
+        <name>mapreduce.reduce.env</name>
+        <value>HADOOP_MAPRED_HOME=${HADOOP_HOME}</value>
+    </property>
+    <property>
+        <name>mapreduce.reduce.shuffle.parallelcopies</name>
+        <value>128</value>
+    </property>
+    <property>
+        <name>mapreduce.job.reduce.slowstart.completedmaps</name>
+        <value>0.7</value>
+    </property>
+    <property>
+        <name>yarn.app.mapreduce.am.job.reduce.rampup.limit</name>
+        <value>0.4</value>
+    </property>
+</configuration>

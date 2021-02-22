@@ -1,0 +1,274 @@
+<?xml version="1.0"?>
+<!--
+LicensedundertheApacheLicense,Version2.0(the"License");
+youmaynotusethisfileexceptincompliancewiththeLicense.
+YoumayobtainacopyoftheLicenseat
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unlessrequiredbyapplicablelaworagreedtoinwriting,software
+distributedundertheLicenseisdistributedonan"ASIS"BASIS,
+WITHOUTWARRANTIESORCONDITIONSOFANYKIND,eitherexpressorimplied.
+SeetheLicenseforthespecificlanguagegoverningpermissionsand
+limitationsundertheLicense.SeeaccompanyingLICENSEfile.
+-->
+<configuration>
+ <!--rm失联后重新链接的时间 -->
+    <property>
+    <name>yarn.resourcemanager.connect.retry-interval.ms</name>
+    <value>3000</value>
+</property>
+    <!-- Shuffle service 需要加以设置的Map Reduce的应用程序服务。 -->
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle,spark_shuffle</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>
+        <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.aux-services.spark_shuffle.class</name>
+        <value>org.apache.spark.network.yarn.YarnShuffleService</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.aux-services.spark_shuffle.classpath</name>
+        <value>/var/soft/spark-3.0.1-bin-3.3.0/yarn/spark-3.0.1-yarn-shuffle.jar</value>
+    </property>
+    <!-- 用于本地化中的文件拷贝 -->
+    <property>
+        <name>yarn.nodemanager.local-dirs</name>
+        <value>
+            /hadoop/data/tmp/nodemanager,/hadoop1/data/tmp/nodemanager,/hadoop2/data/tmp/nodemanager,/hadoop3/data/tmp/nodemanager,/hadoop4/data/tmp/nodemanager,/hadoop5/data/tmp/nodemanager,/hadoop6/data/tmp/nodemanager,/hadoop7/data/tmp/nodemanager,/hadoop8/data/tmp/nodemanager,/hadoop9/data/tmp/nodemanager,/hadoop10/data/tmp/nodemanager,/hadoop11/data/tmp/nodemanager
+        </value>
+    </property>
+    <!-- 开启yarn HA配置 -->
+    <property>
+        <name>yarn.resourcemanager.ha.enabled</name>
+        <value>true</value>
+    </property>
+    <!--开启故障自动切换 -->
+    <property>
+        <name>yarn.resourcemanager.ha.automatic-failover.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.cluster-id</name>
+        <value>mobPrdClusterrm01</value>
+    </property>
+    <!--配置resource manager -->
+    <property>
+        <name>yarn.resourcemanager.ha.rm-ids</name>
+        <value>rm1,rm2</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.hostname.rm1</name>
+        <value>10-90-49-222-jhdxyjd.mob.local</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.hostname.rm2</name>
+        <value>10-90-49-226-jhdxyjd.mob.local</value>
+    </property>
+
+    <!--开启自动恢复功能 -->
+    <property>
+        <name>yarn.resourcemanager.recovery.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.ha.automatic-failover.embedded</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.store.class</name>
+        <value>org.apache.hadoop.yarn.server.resourcemanager.recovery.ZKRMStateStore</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.state-store.max-completed-applications</name>
+        <value>320000</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.max-completed-applications</name>
+        <value>320000</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.work-preserving-recovery.scheduling-wait-ms</name>
+        <value>10000</value>
+    </property>
+    <!-- 配置rm1 -->
+    <property>
+        <name>yarn.resourcemanager.address.rm1</name>
+        <value>10-90-49-222-jhdxyjd.mob.local:8032</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.scheduler.address.rm1</name>
+        <value>10-90-49-222-jhdxyjd.mob.local:8030</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.resource-tracker.address.rm1</name>
+        <value>10-90-49-222-jhdxyjd.mob.local:8031</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.admin.address.rm1</name>
+        <value>10-90-49-222-jhdxyjd.mob.local:8033</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.webapp.address.rm1</name>
+        <value>10-90-49-222-jhdxyjd.mob.local:8088</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.ha.admin.address.rm1</name>
+        <value>10-90-49-222-jhdxyjd.mob.local:23142</value>
+    </property>
+    <!-- 配置rm2 -->
+    <property>
+        <name>yarn.resourcemanager.address.rm2</name>
+        <value>10-90-49-226-jhdxyjd.mob.local:8032</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.scheduler.address.rm2</name>
+        <value>10-90-49-226-jhdxyjd.mob.local:8030</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.resource-tracker.address.rm2</name>
+        <value>10-90-49-226-jhdxyjd.mob.local:8031</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.admin.address.rm2</name>
+        <value>10-90-49-226-jhdxyjd.mob.local:8033</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.webapp.address.rm2</name>
+        <value>10-90-49-226-jhdxyjd.mob.local:8088</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.ha.admin.address.rm2</name>
+        <value>10-90-49-226-jhdxyjd.mob.local:23142</value>
+    </property>
+    <!--在hadoop1上配置rm1,在hadoop2上配置rm2,注意：一般都喜欢把配置好的文件远程复制到其它机器上，但这个在YARN的另一个机器上一定要修改 -->
+    <property>
+        <name>yarn.resourcemanager.ha.id</name>
+        <value>rm1</value>
+    </property>
+    <!--故障处理类 -->
+    <property>
+        <name>yarn.client.failover-proxy-provider</name>
+        <value>org.apache.hadoop.yarn.client.ConfiguredRMFailoverProxyProvider</value>
+    </property>
+    <!--是否设置聚合，默认是false -->
+    <property>
+        <name>yarn.log-aggregation-enable</name>
+        <value>true</value>
+    </property>
+    <!--30天之后清除聚合的日志文件 -->
+    <property>
+        <name>yarn.log-aggregation.retain-seconds</name>
+        <value>12960000</value>
+    </property>
+    <!---1 或者0天之后清除聚合的日志文件 -->
+    <property>
+        <name>yarn.log-aggregation.retain-check-interval-seconds</name>
+        <value>-1</value>
+    </property>
+    <!---聚合日志生产的hdfs路径 -->
+    <property>
+        <name>yarn.nodemanager.remote-app-log-dir</name>
+        <value>/logs</value>
+    </property>
+    <!-- 表示该节点上YARN可使用的虚拟CPU个数，默认是8，注意，目前推荐将该值设值为与物理CPU核数数目相同。如果你的节点CPU核数不够8个，则需要调减小这个值，而YARN不会智能的探测节点的物理CPU总数 -->
+    <property>
+        <name>yarn.nodemanager.resource.cpu-vcores</name>
+        <value>52</value>
+    </property>
+    <!-- 单个任务可申请的最多虚拟CPU个数，默认是32,节点数*每个节点cpu核数-2 -->
+    <property>
+        <name>yarn.scheduler.minimum-allocation-vcores</name>
+        <value>1</value>
+        <discription>单个可申请的最小/最大虚拟CPU个数</discription>
+    </property>
+    <property>
+        <name>yarn.scheduler.maximum-allocation-vcores</name>
+        <value>8</value>
+    </property>
+    <!-- 资源管理配置 -->
+    <property>
+        <name>yarn.nodemanager.resource.memory-mb</name>
+        <value>180224</value>
+        <discription>每个节点可用内存,单位MB,默认值为8192MB</discription>
+    </property>
+    <property>
+        <name>yarn.scheduler.minimum-allocation-mb</name>
+        <value>1024</value>
+        <discription>单个任务可申请最少内存，默认1024MB</discription>
+    </property>
+    <property>
+        <name>yarn.scheduler.maximum-allocation-mb</name>
+        <value>16384</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.vmem-check-enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.pmem-check-enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.vmem-pmem-ratio</name>
+        <value>4.2</value>
+    </property>
+    <!-- 配置资源作业调度 -->
+    <property>
+        <name>yarn.resourcemanager.am.max-attempts</name>
+        <value>4</value>
+    </property>
+    <property>
+        <name>yarn.acl.enable</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.scheduler.class</name>
+        <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.capacity.CapacityScheduler</value>
+    </property>
+    <property>
+        <name>yarn.node-labels.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>yarn.node-labels.fs-store.root-dir</name>
+        <value>/yarn-label</value>
+    </property>
+    <property>
+        <name>yarn.node-labels.configuration-type</name>
+        <value>centralized</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.recovery.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.address</name>
+        <value>0.0.0.0:45454</value>
+    </property>
+    <!-- CapacityScheduler 策略 -->
+    <property>
+        <name>yarn.resourcemanager.webapp.cross-origin.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>yarn.timeline-service.http-cross-origin.enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>yarn.scheduler.capacity.per-node-heartbeat.multiple-assignments-enabled</name>
+        <value>true</value>
+    </property>
+    <property>
+        <name>yarn.scheduler.capacity.per-node-heartbeat.maximum-container-assignments</name>
+        <value>200</value>
+    </property>
+    <property>
+        <name>yarn.scheduler.capacity.per-node-heartbeat.maximum-offswitch-assignments</name>
+        <value>10</value>
+    </property>
+</configuration>
